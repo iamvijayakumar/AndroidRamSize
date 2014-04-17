@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.example.ramsizememorysize"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#c4c9cc"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/refresh_match_layout"
+        android:layout_width="261dp"
+        android:layout_height="248dp"
+        android:layout_margin="5dp"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <TextView
+            android:id="@+id/free_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/total_size"
+            android:layout_below="@+id/total_size"
+            android:layout_marginLeft="43dp"
+            android:layout_marginTop="47dp"
+              android:textColor="#7a6b4e"
+              android:textStyle="bold"
+            android:text="Free" />
+
+        <TextView
+            android:id="@+id/total_size"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/volume_bar"
+            android:layout_alignTop="@+id/volume_bar"
+            android:layout_marginRight="76dp"
+            android:layout_marginTop="64dp"
+            android:text="Total 100Mb "
+            android:textColor="#7a6b4e" />
+
+        <com.example.ramsizememorysize.HalfSeekabr
+            android:id="@+id/volume_bar"
+            android:layout_width="250dip"
+            android:layout_height="250dip"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="10dp"
+            android:clickable="false"
+            android:secondaryProgress="0"
+            app:circle_x_radius="100"
+            app:circle_y_radius="100"
+            app:end_angle="270"
+            app:pointer_alpha_ontouch="100"
+            app:pointer_color="#0174DF"
+            app:pointer_halo_color="#880174DF"
+            app:start_angle="270"
+            app:use_custom_radii="true" />
+       
+    </RelativeLayout>
+
+</LinearLayout>
