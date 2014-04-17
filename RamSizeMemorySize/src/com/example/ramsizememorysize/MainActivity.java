@@ -4,6 +4,9 @@ import java.io.File;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,28 +28,35 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.seekbar);
 
-       HalfSeekabr halfSeekBar = (HalfSeekabr)findViewById(R.id.volume_bar);
-     
-        
+       final HalfSeekabr halfSeekBar = (HalfSeekabr)findViewById(R.id.volume_bar);
         if(externalMemoryAvailable()){
         Toast.makeText(this, "Size :: "+getAvailableInternalMemorySize(), Toast.LENGTH_LONG).show();
     	Log.e("ram", " ********:: " +getAvailableExternalMemorySize() + getAvailableInternalMemorySize() +getTotalExternalMemorySize() + getTotalInternalMemorySize());
     	 File path = Environment.getDataDirectory();
-         StatFs stat = new StatFs(path.getPath());
+         final StatFs stat = new StatFs(path.getPath());
      
-         int blockSize = stat.getBlockSize();
-         int totalBlocks = stat.getBlockCount();
+         final int blockSize = stat.getBlockSize();
+         final int totalBlocks = stat.getBlockCount();
          HalfSeekabr.DEFAULT_MAX  = blockSize*totalBlocks;
-    	  halfSeekBar.setMax(blockSize*totalBlocks);
-    	  
-    	
-         
-          int availableBlocks = stat.getAvailableBlocks();
-          halfSeekBar.setProgress(blockSize*availableBlocks);
-          Log.v("ram", " :: " + blockSize*totalBlocks +" :: "+ blockSize*availableBlocks);
-          TextView textFree = (TextView)findViewById(R.id.free_text);
+    	  halfSeekBar.setMax(6000);
+    	  int availableBlocks = stat.getAvailableBlocks();
+    	  ValueAnimator anim = ValueAnimator.ofInt(0, 4000);
+    	  anim.setDuration(6000);
+    	   final TextView textFree = (TextView)findViewById(R.id.free_text);
+    	  anim.addUpdateListener(new AnimatorUpdateListener() {
+    	      @Override
+    	      public void onAnimationUpdate(ValueAnimator animation) {
+    	      int animProgress = (Integer) animation.getAnimatedValue();
+    	    
+    	     halfSeekBar.setProgress(animProgress);
+    	     textFree.setText("Total :: " +animProgress);
+    	      }
+    	  });
+    	  anim.start();
+         // Log.v("ram", " :: " + blockSize*totalBlocks +" :: "+ blockSize*availableBlocks);
+       
           TextView totalSize = (TextView)findViewById(R.id.total_size);
-          textFree.setText("Total :: " +getTotalExternalMemorySize());
+         
           totalSize.setText("Available : "+ getAvailableExternalMemorySize());
         }
         else{
